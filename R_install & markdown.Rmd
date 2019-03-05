@@ -1,0 +1,420 @@
+---
+title: R설치 및 마크다운 기초
+author: 송학준
+# date: July 31, 2016
+output:
+  rmarkdown::html_document:
+    toc: yes
+    toc_depth: 2
+    # number_sections: yes
+    # fig_width: 5
+    # fig_height: 5
+    df_print: kable
+    # highlight: zenburn
+    code_folding: hide
+    theme: simplex
+    toc_float: yes
+    collapse: no
+    css: styles.css
+---
+
+
+
+
+<!-- --- -->
+<!-- title: "R프로그래밍 강의노트" -->
+<!-- output: -->
+<!--   html_document: -->
+<!--     toc: yes -->
+<!--     toc_depth: '2' -->
+<!-- header-includes: -->
+<!-- - \usepackage{booktabs} -->
+<!-- - \usepackage{sectsty} \sectionfont{\centering \emph} -->
+<!-- --- -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+&quot;배재대학교 호텔여가서비스경영학과&quot;  
+
+&quot;송학준&quot;
+
+_2019-01-22_
+
+# 강의개요
+빅데이터 시대, R 프로그래밍 입문: 유료 패키지 SPSS를 오픈소스 패키지 R로 대체하기
+
+- 강의자: 호텔여가서비스경영학과 송학준 교수
+- 개요  
+
+  > 빅데이터 시대를 맞이하여 유료 통계패키지는 사용가격이 비싸거나 라이센스 문제로 인해 사용이 점차 복잡해지고 어려워지고 있음. 뿐만 아니라 정형화된 유료 통계패키지는 급속히 발전하는 최신 통계기법을 빠르게 수용하기 어려워 연구의 기법향상에 어려움이 있어 왔음 
+이러한 상황에서 본 강의는 사회과학의 핵심 통계기법(구조방정식, 회귀분석, 상관분석, t-test, ANOVA, 빈도분석 등)을 오픈소스 패키지인 R에서 사용하는 방법을 짧게나마 학습해 보고 이를 기반으로 연구의 기법향상을 보다 용이하게 할 수 있는 방안을 모색해 보고자 함
+
+
+# R의 특징
+- R base: 기본적인 R프로그램, 단독으로 사용되지는 않음(정기적으로 업데이트 되고 있음)
+- R-commander: SPSS처럼 top-down메뉴 방식으로 구성(한글화 어느 정도 진행, 아직 불안정)
+- R-studio: 일반적으로 사용되는 응용 R프로그램
+- 웹에서 하는 R통계(web-r.org): R의 shiny패키지를 응용하여 웹상에서 R분석을 구현(bloodia00@hanmail.net/00ab8087)
+- R 패키지: 기본적인 R프로그램에 필요한 패키지를 때에 맞게 인스톨하고 로드하여 사용, 다양한 응용분석을 가능하게 함
+- 예제데이터(자료파일, 설문지): 구글 드라이브
+(https://www.google.com/intl/ko_ALL/drive/, bloodia2018d/00ab8987)를 사용하여 분석을 위한 기초환경 조성
+
+## R-studio 프로젝트 활용
+- 데이터 분석방법 학습: excel(범용), 전용프로그램으로 R, R studio, R-commander
+- R을 구글크롬에서 r download를 친 후 다운받고 인스톨
+    - 학교 실습 컴퓨터의 경우에는 D나 F드라이브에 설치해야 함. C에 까는 경우 하드보안관에 의하여 프로그램이 자동삭제됨. 따라서 가능한 노트북 지참
+- R studio를 구글크롬에서 R studio download를 친 후 다운받고 인스톨
+- 가능한 오른쪽 마우스를 클릭하여 관리자 권한으로 실행(`오른쪽 마우스` -> `설정` -> `호환성` -> `관리자 권한으로 이 프로그램 실행` -> `확인`)
+- `File` -> `New file` -> `R script`를 선택하면 4개의 창이 나타남
+
+![](https://statkclee.github.io/r-gapminder-kr/fig/01-rstudio-script.png)
+
+## R-studio 창 구조
+| 스크립트창: 프로그램을 입력 스크립트상에서 원하는 만큼 영역을 설정하고 이후 Run버튼을 눌러서 실행 | Global environment: 데이터가 입력된 변수 및 데이터셋의 이름 |
+| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Console:명령어 진행과 결과를 보여줌** | **File: 작업파일들의 경로 확인**<br>**Plots: 분석결과가 그림인 경우 여기에 그림이 나타남**<br>**Packages: 패키지들의 설정상황이나 새로운 패키지들을 인스톨할때 이용**<br>**Help: 명령어를 모를때 검색가능**<br>**Viewer: 분석결과가 인터넷등의 웹과 관계된 결과들이 나타나는곳**|
+
+## R과 R-studio 설치
+
+- R은 데이터 분석을 위한 프로그래밍 언어이자 소프트웨어 환경을 의미함. 또한 오픈소스라는 특징을 지니고 있음.
+- 파이썬보다 시각화가 용이하고 확장할 수 있는 패키지가 많다는 점이 장점임.
+- R를 설치하기 위해서는 크게 3가지 절차를 따라야 함  
+
+1.R 설치  
+2.RStudio 설치  
+3.Java 설치  
+
+## R 설치방법
+
+- R을 설치하기 위해서는 다음의 링크로 가야함  
+- [https://www.r-project.org/](https://www.r-project.org)
+- 메인화면에서 좌측에있는 Download 메뉴의 CRAN을 클릭
+
+
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/1.jpg?resize=953%2C868)
+
+- 아래로 스크롤 하여 해당하는 국가의 링크를 클릭
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/2.jpg?resize=1024%2C519)
+
+- 윈도우 사용자는 윈도우 선택
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/3.jpg?resize=1024%2C503)
+
+- 기본 프로그램인 base를 클릭
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/3-1.jpg?resize=1024%2C242)
+
+- Download R 3.5.0 for Windows를 눌러 파일을 다운로드함. 호환성을 위해서 이전 버전을 설치하는 경우도 있음
+![](https://i1.wp.com/philogram.co.kr/wp-content/uploads/2018/05/4.jpg?resize=1024%2C436)
+
+- 언어를 선택한 후에 중요한 작업이 있음  
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/5.jpg?resize=350%2C186)
+
+- 다음을 클릭  
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/6.jpg?resize=582%2C476)
+
+- 프로그램 경로선택시 한글로 된 경로가 절대로 포함되면 안되니 주의하기 바람  
+![](https://i1.wp.com/philogram.co.kr/wp-content/uploads/2018/05/7.jpg?resize=582%2C476)
+
+- 최근 대다수의 컴퓨터가 64비트를 사용하므로 64비트를 선택. 혹시 32비트를 사용하는 경우 32비트를 선택하기 바람
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/8.jpg?resize=582%2C476)
+
+- 혹시 자신의 컴퓨터의 사양을 모르는 경우에는 윈도우+R키를 동시에 누른후 실행창에 dxdiag를 입력하여 운영체제를 확인할 수 있음
+- 여기서 운영체제 항목을 보면 64비트로 표시되어 있음
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/9.jpg?resize=848%2C606)
+
+- 위와 같이 설정되어 있음을 확인  
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/10.jpg?resize=582%2C476)
+
+- 다음 버튼 클릭  
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/11.jpg?resize=582%2C476)
+
+- 원하는 대로 설정 후 다음 버튼 클릭  
+![](https://i1.wp.com/philogram.co.kr/wp-content/uploads/2018/05/12.jpg?resize=582%2C476)
+
+- 다음 버튼 클릭  
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/13.jpg?resize=582%2C476)
+
+- 설치가 완료되었음  
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/14.jpg?resize=582%2C476)
+
+- 바탕화면에 있는 아이콘을 눌러 실행해보면 다음과 같은 화면이 나타남  
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/15.jpg?resize=1024%2C549)
+
+
+
+## RStudio 설치방법
+
+- RStudio를 설치하기 위해 [RStudio 홈페이지](https://www.rstudio.com/)로 이동
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/16.jpg?resize=993%2C913)
+
+- RStudio 부분아래에 있는 Download 버튼을 클릭  
+- RStudio의 강점은 오픈소스라는 것임. FREE 아래에 있는 DOWNLOAD 버튼 클릭
+![](https://i1.wp.com/philogram.co.kr/wp-content/uploads/2018/05/17.jpg?resize=972%2C773)
+
+- 여기서 맨 위에 있는 Windows 버전을 클릭
+- RStudio는 특별한 설정이 필요하지 않으므로 계속 다음 버튼을 눌러 설치를 완료
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/18.jpg?resize=926%2C768)
+
+- 이러한 화면이 보인다면 설치가 정상적으로 완료된 것임
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/19.jpg?resize=1024%2C678)
+- 하지만 다양한 패키지를 사용하기 위해서는 Java가 필요한 경우가 있음
+
+## Java 설치방법
+
+- 자바를 설치하기 위해 [Java 홈페이지](https://www.java.com/ko/download/windows-64bit.jsp)로 이동
+- 여기서 빨간색 부분을 클릭
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/20.jpg?resize=757%2C851)
+**이전에 R을 32비트로 설치하신 분은 64비트로 설치하지 말고 Windows 오프라인 부분을 선택한 후 설치버튼을 누르시면 별도의 세팅 없이 설치가 완료됨**  
+- 이후 RStudio 세팅이 필요함
+
+## RStudio 설정하기
+
+- 설치를 마친 후 원활하게 프로그램을 사용하기 위해 RStudio 를 간단히 설정해야 함
+
+- 우선 RStudio를 실행해 준 후 Tools – Global option을 클릭
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/1-1.jpg?resize=1024%2C679)
+
+- 여기서 working directory를 설정해주어야 하는데 이 폴더에는 분석을 위한 데이터들이 들어가게 됨
+- **경로에 한글이 포함되면 안됨.**  
+![](https://i2.wp.com/philogram.co.kr/wp-content/uploads/2018/05/2-1.jpg?resize=591%2C583)
+
+- 또한 RStudio를 실행할 때 관리자 권한으로 실행해야 함
+- 바탕화면에 있는 RStudio 아이콘을 우클릭 한 후 파일 위치 열기 버튼을 눌러줌
+![](https://i1.wp.com/philogram.co.kr/wp-content/uploads/2018/05/3-2.jpg?resize=392%2C534)
+
+- 속성을 선택
+- 첫번째로 호환성 버튼을 눌러 이동한 후 관리자 권한으로 이 프로그램을 실행 박스에 체크한 후 확인을 눌러줌
+![](https://i0.wp.com/philogram.co.kr/wp-content/uploads/2018/05/4-1.jpg?resize=313%2C444)
+
+
+## RStudio 기본실행 및 자주쓰는 단축키
+
+### R studio에서 코드 실행방법
+
+1. Script에서 코드를 입력후 **실행**방법 : 커서 코드의 처음이나 끝에 위치 시킨 뒤, **[Ctrl + Enter]**
+2. Console에서 코드 입력후 **Enter**
+
+### R studio 기본적인 설정
+
+- 글자 크기 조정
+
+1. Tools > Global options   
+![image](https://t1.daumcdn.net/cfile/tistory/99CEFA4A5C23630D4D "image")  
+
+2. Apperance > Edit Font size  
+![image](https://t1.daumcdn.net/cfile/tistory/99EE924E5C23630E25 "image")  
+
+3. Apperance > Editor themes  
+![image](https://t1.daumcdn.net/cfile/tistory/99B337385C23630F18 "image")  
+
+4. 설정한대로 아래와 같이 변경됨  
+![image](https://t1.daumcdn.net/cfile/tistory/993F114F5C23631016 "image")  
+
+
+- code 글자에 대한 조정
+
+1. Tools > global options > Appearance > Code > Display 를 아래와 같이 선택.  Show margin과 Show whitespace characters 옵션은 설정하지 않도록 함
+![image](https://t1.daumcdn.net/cfile/tistory/99EB113F5C2363110A "image")
+
+### 자주 쓰는 단축키
+
+1. **Ctrl + L **: 콘솔 창 지우기
+2. **Ctrl + 1, 2** : Script창 <\--> Console창 왔다갔다하기 
+3. **Ctrl + shift + n **: 새 스크립트 창
+4. **Ctrl + shift + o **: 주석(####) 메뉴 불러오기
+5. **Ctrl + shift + c** : 영역 주석처리
+6. 그외 단축키 보기 : Help > keyboard shortcuts help **[Alt + Shift + K]**  
+![image](https://t1.daumcdn.net/cfile/tistory/996FD8445C23631217 "image")
+
+
+# Markdown에 관하여
+
+## Markdown이란?
+
+Markdown은 텍스트 기반의 마크업언어로 2004년 John Gruber에 의해 만들어졌음. 쉽게 쓰고 읽을 수 있으며 HTML로 변환 가능하다는 장점이 있음 마크다운이 최근 각광받기 시작한 이유는 [github](https://github.com) 덕분인데 github의 repository에 관한 정보를 기록하는 README.md는 github을 사용하는 사람이라면 누구나 가장 먼저 접하게 되는 markdown 문서였음. 
+
+[R markdown](https://rmarkdown.rstudio.com/lesson-1.html)을 이용하면 데이터 분석 과정에서 데이터에 접근하고 코드를 실행시키며 동시에 레포트를 작성이 가능하다.R markdown은 다음과 같이 구성되어 있음.
+
+![](https://cdn-images-1.medium.com/max/2000/1*jL-whKGBhuUlU7Q2oevz9w.png)
+
+## 설치
+
+- R과 같이 R markdown 또한 무료로 제공되는 오픈소스 플랫폼임. 다음을 통해 패키지를 설치할 수 있음.
+
+```{r, eval=FALSE}
+install.packages("rmarkdown")
+```
+
+- 도움이 될 resources  
+*[The R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)*  
+*[The R Markdown Reference Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)*  
+*[The Official R Markdown Website](https://rmarkdown.rstudio.com/index.html)*  
+*[R마크다운 컨닝쪽지](https://www.rstudio.com/wp-content/uploads/2016/02/rmarkdown-cheatsheet-kr.pdf)*
+
+- R markdown을 작성하기 위해서는 일반 R script가 아닌 .Rmd script창을 열어야함
+- Rstudio 메뉴창의 file아래 새파일추가 버튼을 클릭하면 R script아래 R markdown을 열어주면 됨. 작성하고자 하는 주제와 저자이름 그리고 문서형식을 선택하고 ok버튼을 누르면 .Rmd script창이 생성됨
+- 이제 R markdown 문법에 맞게 문서를 작성하면 되는데 작성한 문서를 HTML파일로 변환하기 위해서는 .Rmd창 아래 Knit HTML버튼을 클릭하면 문서가 생성됨
+
+
+
+## 기본 문법
+
+
+### 큰제목  
+- 문서 제목은 아래 코드와 같이 입력하면 다음과 같이 제목이 생성됨 
+```{r, eval=FALSE}
+This is an H1
+=============
+```
+This is an H1
+=============
+
+### 작은제목  
+- 문서의 부제목은 아래 코드와 같이 입력하면 다음과 같이 제목이 생성됨
+```{r, eval=FALSE}
+This is an H2
+-------------
+```
+This is an H2
+-------------
+
+### 머릿글(Headers)
+- headers는 말그대로 머릿글을 의미함. 머릿글로 하고자 하는 글에 `#`으로 머릿글을 나타냄
+- `#`의 개수에 따라 머릿글의 크기가 조정되고 `#` 1개가 가장 큰 머릿글이됨
+- 1개에서 6개까지 지원하며 # 갯수에 따라 크기가 달라ㅈ
+- 아래 코드와 같이 입력하면 다음과 같이 머릿글이 생성됨
+```{r, eval=FALSE}
+# ESC
+## ESC
+### ESC
+#### ESC
+##### ESC
+###### ESC
+```
+# ESC
+## ESC
+### ESC
+#### ESC
+##### ESC
+###### ESC
+
+## Manual Line Breaks
+- markdown에서 text를 작성하다 line break 즉 행바꿈을 하기위해서는 바꾸고자 하는 글의 끝에 2개 이상의 space를 입력해야 행이 바뀜
+
+- 2개 이상의 space를 입력하지 않았을 때 아래와 같이 나타남
+서울과학기술대학교 데이터사이언스 이강혁
+
+- 2개 이상의 space를 입력하였을 때는 아래와 같이 나타남
+서울과학기술대학교  
+데이터사이언스  
+이강혁  
+
+
+### Block Quote
+- 어떤 문장을 블록 지정해주고 싶다면, blockquotes를 사용하는데 > 크다 기호를 사용하고 기본 문장 위아래 한칸을 비우고 문장을 작성하면 됨 
+- 아래 코드와 같이 입력하면 다음과 같이 제목이 생성됨
+```{r, eval=FALSE}
+> This is a blockquote.
+```
+> This is the first blockquote.
+
+### 목록
+- 순서가 있는 목록은 숫자와 점을 사용
+```{r, eval=FALSE}
+1. 첫번째
+2. 두번째
+3. 세번째
+```
+1. 첫번째
+2. 두번째
+3. 세번째
+
+- 순서가 없는 목록은 글머리 기호를 사용
+```{r, eval=FALSE}
+* 빨강
+  * 녹색
+    * 파랑
+```
+* 빨강
+    * 녹색
+          * 파랑
+
+
+### 수평선
+- 아래의 줄은 모두 수평선을 만드는데 페이지 나누기 용도로 자주 사용됨
+```{r, eval=FALSE}
+***
+* * *
+*****
+- - -
+```
+
+***
+* * *
+*****
+- - -
+
+### 링크 첨부하기
+- text에 하이퍼링크를 걸고자 한다면, 하이퍼링크를 걸고하 자는 글을 []대괄호로 묶은 후에 ()소괄호 않에 걸고자 하는 주소를 쓰면됨
+```{r, eval=FALSE}
+Link: [Google](https://google.com)
+```
+Link: [Google](https://google.com)
+
+
+### 강조
+- 글자를 강조하기 위해서 기본적으로 italic과 bold체가 있음
+- italic은 강조하고자 하는 tex음t 양끝에 `*` 또는 `_`를 입력하면 됨(공백없이)
+- bold는 강조하고자 하는 text 양끝에 `**` 또는 `__`를 입력하면 됨(공백없이)
+- 마찬가지로 명암강조(블락처리)는 양끝에 `'`를 취소선은 양끝에 `~~`를 사용할 수 있음
+```{r, eval=FALSE}
+*italics*
+**bold**
+`backticks`
+~~cancelline~~
+```
+
+*italics*  
+**bold**  
+`backticks`  
+~~cancelline~~  
+
+### 이미지 삽입
+- 이미지 파일은 URL로부터 불러올 수 있고 자신의 컴퓨터로 부터도 불러올 수 있음  
+- 위에서 text에 링크를 거는것과 비슷하게 []안에 image주석을 달고 []앞에 !표를 붙여줌  
+- [] 이와 같이 표현하고 그리고 ()안에 image주소를 입력하거나 image파일 경로를 입력해줌
+```{r, eval=FALSE}
+![text](/path/to/image.jpg)
+```
+![](https://statkclee.github.io/r-gapminder-kr/fig/01-rstudio-script.png)
+
+### R code chunk
+
+- 기존 R script에서 code를 입력했을 때 콘솔창에 뿌려지는 code 결과를 문서에 나타나게 하기 위해서 R code chunk 안에 R code를 입력해야 함
+- chunk는 스크립트창의 오른쪽 상단의 Insert를 클릭하여 “R”를 선택하거나 그냥 스크립트창에 직접 입력해도 됨
+- R code chunk는 아래와 같고 chunk안에 출력하고자 하는 R code를 입력하면 됨. chunk 안에 아래와 같은 코드를 입력해 보면
+```{r echo=TRUE}
+x <- 1:10 # 1부터 10까지 만들어서 x변수에 할당
+y <- round(rnorm(10, x, 1), 2) # 평균이 x이고 표준편차가 1인 10개의 난수를 발생시키되 소수점을 2자리로 하고 각 값들을 y변수에 할당
+df <- data.frame(x, y) # x와 y변수 그룹을 하나의 데이터 프레임으로 만들어서 df에 저장
+df # df출력
+```
+HTML 출력결과 코드와 df 결과가 위와 같이 나타나게 됨
+
+- {r} 안에 많은 chunk 옵션들이 있음
+- chunk 옵션은 {}안에 커서를 넣고 Tab키를 눌러 확인할 수 있음
+- chunk옵션으로 부터 코드를 출력시키지 않거나, 결과물을 출력시키지 않고 또는 결과물의 싸이즈 등을 설정할 수 있음
+- {r} 안에 주석을 달아주는게 좋은데 예를 들어 {r code1}이라는 주석을 달아놓면 나중에 chunk들이 많이 생겼을때, 스크립트 창 오른쪽 상단의 Chunks로 부터 “Jump to”를 클릭하여 찾기 원하는 chunk를 바로 찾아 갈 수 있음
+- HTML 출력물에서 chunk안의 코드를 숨기려면 {r} 안에 echo=FALSE옵션을 입력하고(default는 TRUE) 결과물을 출력 테두리없이 직접적으로 쓰려면 results='asis'옵션을 사용하면 됨(default는 미사용) 
+
+
+
+
+### LaTex(수식)
+
+
+## Basic console output
+
+
+

@@ -1,0 +1,121 @@
+---
+title: 데이터과학 보조자료중심 강의
+author: 송학준
+# date: July 31, 2016
+output:
+  rmarkdown::html_document:
+    toc: yes
+    toc_depth: 2
+    # number_sections: yes
+    # fig_width: 5
+    # fig_height: 5
+    df_print: kable
+    # highlight: zenburn
+    code_folding: hide
+    theme: simplex
+    toc_float: yes
+    collapse: no
+    css: styles.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## 데이터 과학
+[데이터 과학이란?](https://www.youtube.com/watch?v=dZZfDj_ieEU&t=2s)
+
+[데이터 과학이란?](https://www.youtube.com/watch?v=kZYVwIs0fGA)
+
+## 통계를 배우는 목적
+[빅데이터분석과 자료](https://www.youtube.com/watch?v=JwSyWfOBdTE&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc&index=2)
+
+[기술통계와 추리통계](https://www.youtube.com/watch?v=Cut3ZEyjBOQ&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc&index=3)
+
+[추리통계와 빅데이터](https://www.youtube.com/watch?v=eAKFg45N154&index=4&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc)
+
+[데이터의 종류](https://www.youtube.com/watch?v=cZssJ1SAESs&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc&index=5)
+
+[데이터의 종류2](https://www.youtube.com/watch?v=vh3i8rPGQv4&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc&index=6)
+
+[표본조사](https://www.youtube.com/watch?v=re_x3Ad5GDU&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc&index=8)
+
+
+
+## 관광분야에서의 데이터 과학
+[빅데이터 지역관광 활성화](https://www.youtube.com/watch?v=xfGi19nXOz0)
+
+[빅데이터로 본 최근 여행 트렌드](https://www.youtube.com/watch?v=wwXGoilDhow)
+
+[빅데이터로 관광정책 수립](https://www.youtube.com/watch?v=Xt4_qkoIHps&t=38s)
+
+## R프로그램과 Rstudio
+[빅데이터와 R, R을 배워야하는 이유](https://www.youtube.com/watch?v=s7Sj1FOtDb8)
+
+[왜 R을 배워야하는가?](https://www.youtube.com/watch?v=s7Sj1FOtDb8)
+
+[R, Rstudio 인스톨 및 소개](https://www.youtube.com/watch?v=tCtfgfexOyc)
+
+[Rstudio 인스톨 및 소개](https://www.youtube.com/watch?v=kGT7sn0DNKY)
+
+[R, Rstudio 설치 및 사용법](https://www.youtube.com/watch?v=UwfeS0KjQOU&index=10&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc)
+
+[R Markdown을 이용한 문학적 프로그래밍](https://www.youtube.com/watch?v=CuhsPl7JDvc&t=723s)
+
+[R과 Knitr를 활용한 데이터 연동형 문서만들기](https://www.youtube.com/watch?v=lMpX9KXd9AY)
+
+[R마크다운문서로 연구 자동화](https://www.youtube.com/watch?v=tLXdkflgoQM&t=28s)
+
+[엑셀파일을 CSV파일로 변환하기](https://jinmedi.tistory.com/383?category=358093)
+
+> 일반업무를 위해서면 엑셀파일이 편하지만 통계를 위해서는 CSV파일을 사용하는 것이 편함  
+CSV 파일은 Comma separated values의 약자인데 가장 중요한 정보를 담는것을 목적으로 하기 때문에 용량이 작은편임
+
+[CSV파일 R스튜디오로 읽기](https://jinmedi.tistory.com/384?category=358093)
+
+[R스튜디오에서 예제 데이터 파일 읽어오기](https://jinmedi.tistory.com/384?category=358093)
+
+> 본 동영상 강의는 패키지 안에 들어 있는 데이터셋을 읽어들일 수 있는 방법을 알려주고자 함
+통계공부를 처음 시작하면, 배운 내용을 활용하고 싶은데 수집한 데이터가 없는 경우가 많음
+R-studio는 패키지를 개발하면서 실습용 데이터를 패키지 안에 담아서 배포하고 있음
+대표적인 실습용 데이터로는 Iris, Car, Titanic 등이 있는데 본 강의에서는 실습용 데이터 'acs'를 소개하고자 함
+이 데이터셋은 문건웅 교수님께서 '의학논문 작성을 위한 R통계와 그래프'라는 책을 쓰면서 함께 개발한 moonBook 패키지에 포함되어 있음
+해당 데이터는 다른 데이터셋과는 달리, 관상동맥질환 환자들의 데이터여서 의학통계를 주로 다루고 있음
+변수를 살펴보면 나이, 성별, 진단명, 키, 몸무게, 콜레스테롤 수치 등이 포함되어 있음
+
+[R스튜디오에서 예제 데이터 파일 읽어오기](https://jinmedi.tistory.com/384?category=358093)
+
+[아빠가 들려주는 [통계] 나의 R 공부 방법은, 패키지 설치 등](https://www.youtube.com/watch?v=KJlF7HAG0p8)
+
+[R변수선언](https://www.youtube.com/watch?v=D5flWhv3AF4&index=12&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc)
+
+[R데이터형](https://www.youtube.com/watch?v=vZGZCHvBGOg&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc&index=13)
+
+[R데이터구조](https://www.youtube.com/watch?v=4BhO607hVWs&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc&index=14)
+
+[R데이터프레임](https://www.youtube.com/watch?v=tMroNsF6_-k&index=15&list=PLEUKy_nwlzwFbxj6ilK2XXHJqBXMcTOOc)
+
+
+[R빈도분석](https://www.youtube.com/watch?v=rCZM3LiLcFs&t=431s)
+
+
+
+
+
+
+그래서 이번 동영상 강의에서는 패키지 안에 들어 있는 데이터셋을 
+
+읽어들일 수 있도록 따라하기 방식으로 안내해드리려고 합니다.
+
+
+
+
+
+빅데이터 시대, R 프로그래밍 입문: 유료 패키지 SPSS를 오픈소스 패키지 R로 대체하기
+
+- 강의자: 호텔여가서비스경영학과 송학준 교수
+- 개요  
+
+  > 빅데이터 시대를 맞이하여 유료 통계패키지는 사용가격이 비싸거나 라이센스 문제로 인해 사용이 점차 복잡해지고 어려워지고 있음. 뿐만 아니라 정형화된 유료 통계패키지는 급속히 발전하는 최신 통계기법을 빠르게 수용하기 어려워 연구의 기법향상에 어려움이 있어 왔음 
+이러한 상황에서 본 강의는 사회과학의 핵심 통계기법(구조방정식, 회귀분석, 상관분석, t-test, ANOVA, 빈도분석 등)을 오픈소스 패키지인 R에서 사용하는 방법을 짧게나마 학습해 보고 이를 기반으로 연구의 기법향상을 보다 용이하게 할 수 있는 방안을 모색해 보고자 함
