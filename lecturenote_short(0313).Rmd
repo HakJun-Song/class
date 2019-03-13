@@ -1,0 +1,398 @@
+---
+title: R분석 기초
+author: 송학준
+# date: July 31, 2016
+output:
+  rmarkdown::html_document:
+    toc: yes
+    toc_depth: 2
+    # number_sections: yes
+    # fig_width: 5
+    # fig_height: 5
+    df_print: kable
+    # highlight: zenburn
+    code_folding: hide
+    theme: simplex
+    toc_float: yes
+    collapse: no
+    css: styles.css
+---
+
+<!-- --- -->
+<!-- title: This is the title -->
+<!-- author: D. Author -->
+<!-- date: 14-02-2013 -->
+<!-- output: -->
+<!--   html_document: -->
+<!--     toc: yes -->
+<!--     toc_depth: 2 -->
+<!--     number_sections: yes -->
+<!--     fig_width: 5 -->
+<!--     fig_height: 5 -->
+<!--     df_print: kable -->
+<!--     highlight: zenburn -->
+<!--     code_folding: hide -->
+<!--     # theme: united -->
+<!--     toc_float: yes -->
+<!--     collapse: no -->
+<!--     css: styles.css -->
+<!-- --- -->
+
+
+
+<!-- --- -->
+<!-- title: "R분석 기초" -->
+<!-- output: -->
+<!--   html_document: -->
+<!--     toc: yes -->
+<!--     toc_depth: '2' -->
+<!-- header-includes: -->
+<!-- - \usepackage{booktabs} -->
+<!-- - \usepackage{sectsty} \sectionfont{\centering \emph} -->
+<!-- --- -->
+
+<!-- # ```{r setup, include=FALSE} -->
+<!-- # knitr::opts_chunk$set(echo = TRUE) -->
+<!-- # ``` -->
+
+## 데이터 분석의 단계
+- R과 Rstudio가 깔려있다는 가정하에
+- 구체적으로 어떤 R application을 사용할 것인지를 결정
+    - R script: 명령어 위주로 분석을 실행하고 싶을때
+    - R markdown: 명령어, 분석결과, 그래프, 설명 등을 한번에 편하게 설명하고 공유하고 싶을때
+    - R shiny: 인터랙티브한 분석과 결과를 얻고 싶을때
+    
+# 실제분석을 할때(R script을 사용할시)
+- 환경설정: 데이터셋이나 변수명, 콘솔창 등을 설정
+- 패키지 인스톨
+- 다양한 방법을 통해 데이터를 시스템상에 로드, 외부데이터가 사용될 경우 global environment상에 나타나게 됨. 패키지상에 자동적 깔려있는 내부데이터가 global environment상에 안보임
+    - 외부데이터 로드 방법은 여러가지가 있으나 csv나 액셀 형태로 데이터를 로드하는 것이 일반적임
+- 데이터 클리닝, 가공  
+- 분석방법 설정(회귀분석, 구조방정식, 시계열 분석)  
+- 명령어기반 프로그램(R/Python/SAS/Stata):코드작성(코딩), 메뉴기반(SPSS): 클릭방식 
+- 분석결과 도출  
+- 분석결과 해석 및 보고
+
+## 환경설정
+- 원활한 작업을 위해 환경설정을 하는 것이 중요함
+- 아래 코드는 작업폴더를 확인하는 것임. 현재 작업폴더를 아는것은 에러없이 분석을 하는데 있어서 중요한데 만약 원하는 곳으로 작업폴더가 지정되어 있지 않으면 `setwd`함수를 통해 경로를 지정할 수 있음
+- 경로를 지정할때 주의할 것은 윈도우에서 사용하는 경로는 `\`를 사용하지만 R에서는 `\\`나 `/`를 사용하는 것에 유의하기 바람
+
+```{r}
+# 작업폴더 설정
+getwd() # 폴더 확인
+# setwd("C:/Users/Administrator/Documents") # 필요한 경우 폴더 지정
+```
+
+>주석문: 컴퓨터 화면상에 보이지만 컴퓨터는 인식하지 못함, 코드를 나중에 이해하기 쉽게 하기 위해 사용. 단축키는 `ctrl+shift+c`임. 구체적으로 Rscript에서는 `#`으로 표현되고 Rmarkdown에서는 `<!-- --- -->`사이에 코드가 들어가게 됨 
+
+- 분석을 반복해서 진행하다보면 특히 외부에서 데이터를 로드하여 사용시 이전에 것과 데이터셋, 부분 데이터셋 및 변수들이 복잡하게 섞여서 실제로는 에러가 발생함에도 불구하고 이를 인지하지 못하는 경우가 발생함
+- 따라서 매번 분석을 할때 마다 `Global Environment`상의 데이터들을 깨끗하게 해서 진행하는 것이 좋은데 이와 관련되는 것이 다음의 코드임
+
+```{r}
+# 환경최초로
+rm(list=ls()) #Removes all items in Environment!
+```
+
+## 패키지 인스톨
+>강의노트와 관계없이 Rmarkdown의 원활한 활용을 위해 이 부분이 반드시 필요함. 부분실행을 통해 미리 패키지 설치 및 라이브러리(패키지로드)를 시행할 필요가 있음. 미리시행은 각 코드정크의 오른쪽 상단의 `작은 녹색 플레이 버튼'을 클릭하면 됨. 패키지 인스톨 코드정크와 라이브러리 코드정크를 반드시 부분실행할 것. 그렇지 않으면 에러가 발생됨  
+
+- 패키지를 인스톨하고 난뒤, *library* 함수를 통해 호출함 
+- 최초 1회 설치
+- 본 강의노트에서는 다음과 같은 패키지가 필요하여 미리 패키지가 인스톨 되어있는지 확인하고 그렇지 않은 경우 인스톨하고자 함 
+```{r eval=FALSE}
+if(!require("openxlsx")) install.packages("openxlsx")
+if(!require("semPlot")) install.packages("semPlot")
+if(!require("janitor")) install.packages("janitor")
+if(!require("summarytools")) install.packages("summarytools")
+if(!require("semPlot")) install.packages("semPlot")
+if(!require("stargazer")) install.packages("stargazer")
+if(!require("DiagrammeR")) install.packages("DiagrammeR")
+```
+
+- 매 사용 시마다(분석을 새로할 때 마다) library로 불러 와야 함
+```{r echo=TRUE}
+library(openxlsx)
+library(semPlot)
+library(janitor)
+library(summarytools)
+library(semPlot)
+library(stargazer)
+library(DiagrammeR)
+```
+
+## 내장 데이터셋 사용
+- 기초적인 실습을 위해 Rstudio에 내장되어 있는 데이터셋인 `cars`를 사용하기로 함. 참고로 내장된 데이터셋이기 때문에 global environment에는 나타나 있지 않음
+
+- 내장된 데이터를 사용하는 이유로 **데이터를 수동입력 또는 시스템에 이미 입력된 자료를 로드**하는 과정은 필요없음
+
+- 데이터셋: 변수들의 모임, 변수: 분석이 가능한 하나 하나의 단위, 설문지에서 하나하나의 항목을 뜻함
+
+- `cars`데이터셋은 변수2개(speed, dist)로 구성되어 있음
+
+- 가장 기본적인 명령어(함수)인 View(전체 데이터셋을 보는 명령)를 사용하고자 함
+```
+View(cars)
+```
+<br>
+
+- `head`는 데이터셋에서 앞에서 6개 정도만 보여줌
+```{r}
+head(cars)
+```
+
+- `names(cars)` # 데이터셋에 있는 변수의 이름을 보여줌
+```{r}
+names(cars)
+```
+
+- `dim(cars)` # 데이터의 가로세로의 수를 보여줌
+```{r}
+dim(cars)
+```
+
+- 산점도: `plot(cars$speed, cars$dist)` # 산점도 그래프
+```{r}
+plot(cars$speed, cars$dist)
+```
+
+- 상관관계: `cor(cars$speed, cars$dist)` # 상관관계 -1부터 1까지 존재
+```{r}
+cor(cars$speed, cars$dist)
+```
+
+상관관계는 양적변수간 얼마나 관계가 깊은가를 알려줌
+
+>사회현상을 바라보았을때 우리가 관심이 있는것을 GDP라고 해보면 GDP가 긍정적이므로 긍정적인 것과 관계가 깊은 것을 알고 싶을 경우가 있음(예를 들면, 와인소비량, 여행소비, 여가시간 등)
+
+## 인과관계
+- 향후에는 관계를 떠나서 인과관계를 알고 싶게됨
+- 인과관계를 알아보는 대표적인 통계분석방법에는 회귀분석이 있음
+
+```{r}
+mod<-lm(cars$dist~cars$speed) # 회귀분석: ~을 기준으로 왼쪽이 영향을 받는쪽(DV: dependent variable, 종속변수), # 오른쪽이 영향을 주는 쪽(IV: independent variable, 독립변수)lm(cars$dist~cars$speed)
+mod # 분석결과를 간단히 도출
+summary(mod) # 분석결과를 상세하게 도출
+```
+
+## 함수형식
+- R로 데이터 분석을 하는것은 컴퓨터랑 분석에 대한 대화와 요구를 하는 것이라고 할 수 있는데 이를 도와주는 것이 함수(명령어)라고 할 수 있음
+- 함수는 일정한 형식에 따라 진행되는 것이 중요한데 각 함수에 대한 것은 다음을 통해 알 수 있음
+
+- 함수의 형식확인, 아래는 `lm`이라는 함수의 형식을 자세히 알아보고자 할때 사용하게 됨 
+```{r}
+args(lm)
+```
+- 위의 형식에서 모든것을 필요로 하는 것은 아니고 필요할때만 옵션을 추가해서 사용하게 됨 
+
+
+- 도움받기
+- help명령어를 아래와 같이 사용하던가 `Help`패널에서 입력해도 동일한 결과를 얻을 수 있음
+```{r}
+??lm
+```
+~~~
+Y=aX+b + error -> Y=3.932*X - 17.579 + error
+
+o 3.932(a): 기울기, coefficient, 회귀계수, x가 1증가할때 증가하는 y의 양
+
+o -17.579(b): y절편, x가 0일 때 y의 값
+
+o x가 30일때?(일종의 예측이 됨)
+  3.932*30 - 17.579
+~~~
+
+- 그래프상에서 선을 그을 때됨는 아래의 코드를 사용하면 ㄷ
+```{r}
+plot(cars$dist~cars$speed)
+abline(mod, col="red")
+title(expression(italic(dist==3.932%*%speed-17.579)))
+```
+<br>
+
+- 회귀분석 확장분석
+```{r}
+library(semPlot)
+model1 <- lm(cars$speed~cars$dist) # 회귀분석 결과를 model1이라는 곳에 저장
+summary(model1)
+semPaths(model1)
+semPaths(model1, "std", title = FALSE)
+```
+
+```{r}
+stargazer(model1, summary=FALSE, type='text', rownames=FALSE, initial.zero=TRUE, digits=3, report = "vct*", title='회귀분석 결과정리')
+```
+
+- PPT품질의 유용한 회귀분석 그림 그리기
+```{r}
+var_name_line1 <- list(a="speed",b="distance")
+
+R_sq <- list(a=0.651)
+coef <- list(a=0.166)
+t_value <- list(a=9.464)
+
+DiagrammeR::grViz("
+  digraph graph1 {compound=true;
+                  
+  graph [layout = dot,rankdir = LR]
+                
+  a [label = '@@1', fixedsize = true, width = 1.0, fontsize = 10, shape=square]
+  b [label = '@@2', fixedsize = true, width = 1.0, fontsize = 10, shape=square]
+                  
+  # {a,b,c}> d -> e
+                  
+  a->b [label='@@3', fontsize = 10] # ,style=dashed
+                 }
+
+[1]: paste0('',var_name_line1$a,' ')
+[2]: paste0('',var_name_line1$b,' \\n (R-square: ',R_sq$a,')')
+[3]: paste0('',coef$a,'(',t_value$a,')***')
+                  ")
+```
+
+
+
+
+<!-- - lm은 회귀분석을 시행하는 명령 -->
+<!-- - coef는 회귀분석 결과에서 계수를 빼내는 명령 -->
+<!-- 참고로, attach -->
+<!-- plot(cars$dist, cars$speed) # 앞에것이 x 뒤에것이 y -->
+<!-- attach(cars) -->
+<!-- plot(dist, speed) # 앞에것이 x 뒤에것이 y -->
+<!-- ■ 유용한 자료 및 사이트(인터넷 따라하기 또는 자체교재) -->
+<!-- BA\_LN02\_data\_manipulation -->
+<!-- BA\_LN05\_linearreg\_1 -->
+<!-- https://rpackage.blogspot.com/?view=sidebar -->
+
+## 데이터 분석(외부데이터를 로드해서 사용시)
+
+- 모델링 - 설문지 작성
+
+- 자료수집 - 코딩(설문지의 데이터를 컴퓨터 프로그램에 입력, 메모장, 엑셀, SPSS)
+
+- 프로그램 이용(SPSS, SAS, STATA, R, Python)
+
+    - 분석시작
+
+    - 코딩한 데이터 로드 (데이터의 확장자(종류)가 매우 다양): 데이터 파일의 형식에 따라 R상에서 데이터를 여는 방법이 다름
+
+※ 오리지널 R을 쓸 때 이 과정이 생각외로 매우 복잡하고 짜증남, 용이하게 하기위해 Rstudio 등을 이용
+
+
+## 데이터 로드
+- 아래에서 `file.choose()`가 매우 유용한데 R에서 복잡하게 데이터 파일의 경로를 지정해줘야 하는것과 다르게 `file.choose()`를 이용하면 데이터 경로를 지정할 수 있는 대화상자를 호출하여 보다 용이하게 데이터 파일 경로를 지정할 수 있도록 도와줌 
+
+- 엑셀데이터 로드
+```{r eval=FALSE}
+if(!require("openxlsx")) install.packages("openxlsx"); library(openxlsx)
+Dataset <- read.xlsx(file.choose(), 1) # 파일명
+head(Dataset)
+names(Dataset)
+dim(Dataset)
+```
+
+- CSV데이터 로드
+```{r eval=FALSE}
+Dataset <- read.table(file.choose(), 
+header=TRUE, sep=",", na.strings="NA", dec=".", strip.white=TRUE) # 파일명
+head(Dataset)
+names(Dataset)
+dim(Dataset)
+```
+
+- SPSS데이터 로드
+```{r eval=FALSE}
+if(!require("haven")) install.packages("haven"); library(haven)
+Dataset <- read_sav(file.choose()) # 파일명
+head(Dataset)
+names(Dataset)
+dim(Dataset)
+```
+
+- R데이터 로드
+```{r eval=FALSE}
+Dataset <- get(load(file.choose())) # 파일명
+head(Dataset)
+names(Dataset)
+dim(Dataset)
+```
+
+- 인터넷 데이터 로드
+```{r eval=FALSE}
+url<-"https://raw.githubusercontent.com/HakJun-Song/image-data/master/china.csv" # github에서 raw선택했을때 파일 이름
+setwd('D:/lab com/Data storage/research/R/호스피탈리티통계') # 로컬 컴퓨터 폴더명
+download.file(url,destfile = "./china.csv")
+Dataset <- read.table("./china.csv",header=TRUE, sep=",", na.strings="NA", dec=".", strip.white=TRUE) # , fileEncoding = "euc-kr"
+head(Dataset)
+```
+
+## 인터넷에서 R코드 따라할 때 에러가 나는 이유1: 패키지 설치의 어려움
+
+- 패키지 설치의 예, 액셀파일을 열때 도와주는 openxlsx를 설치한다고 가정하면
+```{r eval=FALSE}
+if(!require("openxlsx")) install.packages("openxlsx"); library(openxlsx)
+```
+- SPSS라는 프로그램은 인터넷과 연동 안됨, 프로그램을 깔 때 모든 모듈을 제공하므로 프로그램이 무거워짐
+- 패키지 사용시 편리한 부분: Rbase -> 필요한 모듈을 추가 인스톨(패키지) -> 로드 -> 사용가능
+- 패키지 사용시 귀찮은 부분: 스크립트를 새로 시작할 때 마다 패키지를 로드를 해줘야함, 안할 경우 에러가 발생함
+- 패키지 설치: install.packages()
+- 패키지 로드: library()
+- 궁극적으로 아래와 같이 사용하기를 권함
+```{r eval=FALSE}
+if(!require("openxlsx")) install.packages("openxlsx"); library(openxlsx)
+```
+- 일반적으로 아래와 같이 실행하는 경우가 많음
+```{r eval=FALSE}
+install.packages("openxlsx")
+library(openxlsx)
+```
+- 이 경우 프로그램을 작성해 놓고 영역을 설정하여 한번에 실행하는 경우 번거로움이 발생하게 되는데 매번 openxlsx라는 패키지를 인스톨하게 되어 실행시간이 길어짐
+- 하지만 if(!require("openxlsx"))와 같은 명령어를 함께 실행하게 되면 인스톨이 되어 있는지 안 되어있는지 확인하여 인스톨되어 있다면 라이브러리 명령어만 실행하게 됨
+
+
+## 인터넷에서 R코드 따라할 때 에러가 나는 이유2: attach함수 사용의 미수
+
+- R에서는 함수 사용시 일반적으로 `데이터셋이름$변수명`을 입력해 주어야함
+
+- 만약 이것이 귀찮다면 사전에 attach를 사용하면 됨
+
+
+##
+```{r}
+if(!require("openxlsx")) install.packages("openxlsx"); library(openxlsx)
+Dataset <- read.xlsx(file.choose(), 1) # 파일명:incheon0427
+head(Dataset)
+names(Dataset)
+dim(Dataset)
+```
+
+## 빈도분석
+```{r}
+if(!require("janitor")) install.packages("janitor"); library(janitor)
+tabyl(Dataset$q10, sort = TRUE)
+
+```
+
+```{r}
+library(summarytools)
+summarytools::freq(Dataset$q10, plain.ascii = FALSE, style = "rmarkdown") # order = "freq"
+```
+
+
+
+
+
+
+<!-- - 함수의 형식확인 -->
+<!-- ```{r} -->
+<!-- args(lm) -->
+<!-- ``` -->
+
+<!-- ??Rcmdr -->
+
+<!-- ## Rcmdr: SPSS를 오픈소스 패키지 R로 대체하기 -->
+<!-- ```{r eval=FALSE} -->
+<!-- if(!require("Rcmdr")) install.packages("Rcmdr"); library(Rcmdr) -->
+<!-- ``` -->
+<!-- - 탑-다운 메뉴방식 통계프로그램은 SPSS처럼 R을 활용하기 위해서 Rcmdr이라는 패키지가 사용되어 오고 있음 -->
+
